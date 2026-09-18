@@ -46,6 +46,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 }
 .iconbtn:hover{transform:translateY(-2px) rotate(8deg);border-color:rgba(255,79,115,.5);box-shadow:var(--glow)}
 main{min-height:calc(100vh - 78px)}
+main > .screen{display:none!important}
+main > .screen.active{display:block!important}
+main > .screen[hidden]{display:none!important}
 .screen{display:none;min-height:calc(100vh - 78px);padding:clamp(28px,5vh,70px) clamp(16px,5vw,72px);animation:screenIn .5s ease both}
 .screen.active{display:block}
 @keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
