@@ -59,7 +59,7 @@ function sendRatingsSummary(r){
   io.to(p.id).emit("show:ratingsSummary",{rounds});
  }
 }
-app.use((req,res,next)=>{res.setHeader("Cache-Control","no-store, no-cache, must-revalidate, proxy-revalidate");res.setHeader("Pragma","no-cache");res.setHeader("Expires","0");next()});
+app.use((req,res,next)=>{res.setHeader("Cache-Control","no-store, no-cache, must-revalidate, proxy-revalidate");res.setHeader("Pragma","no-cache");res.setHeader("Expires","0");res.setHeader("Permissions-Policy","camera=(self), microphone=(self), autoplay=(self), display-capture=(self)");next()});
 app.use(express.static(path.join(__dirname,"public")));
 app.get("/health",(req,res)=>res.status(200).json({ok:true,service:"blind-date-show"}));
 app.get("/rtc-config",(req,res)=>{const iceServers=[{urls:["stun:stun.l.google.com:19302","stun:stun.cloudflare.com:3478"]}];if(TURN_URL&&TURN_USERNAME&&TURN_CREDENTIAL)iceServers.push({urls:TURN_URL.split(",").map(x=>x.trim()).filter(Boolean),username:TURN_USERNAME,credential:TURN_CREDENTIAL});res.json({iceServers})});
