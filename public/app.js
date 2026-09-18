@@ -2,7 +2,7 @@ const RATING_VALUES=[-100,0,1,2,3,4,5,6,7,8,9,10];
 const socket=io({transports:["websocket","polling"],reconnection:true,reconnectionAttempts:Infinity,reconnectionDelay:500,reconnectionDelayMax:3000,timeout:10000});
 let mode="create",roomCode="",myId="",myRole="",pc=null,localStream=null,remoteStream=new MediaStream(),timerId=null,selectedRating=null,currentRatingRound=0,roundEnding=false,rtcStarting=false,iceQueue=[],videoFacingMode="user";
 const $=id=>document.getElementById(id);
-const show=id=>document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===id));
+const show=id=>document.querySelectorAll(".screen").forEach(s=>{const on=s.id===id;s.classList.toggle("active",on);s.hidden=!on});
 const setRecordState=t=>{const x=$("recordHint");if(x)x.textContent=t};
 const toast=t=>{const x=$("toast");x.textContent=t;x.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove("show"),2800)};
 const esc=t=>{const d=document.createElement("div");d.textContent=t;return d.innerHTML};
