@@ -1,0 +1,43 @@
+name: Import v23 production bundle
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "v23.bundle.b64"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Decode v23 bundle
+        run: |
+          base64 -d v23.bundle.b64 > v23.zip
+          unzip -l v23.zip
+
+      - name: Replace repository with v23
+        run: |
+          rm -rf public
+          rm -f README-DEPLOY.md app.js control.html control.js database.rules.json firebase-config.js firebase.json index.html pages.yml
+          unzip -o v23.zip
+          rm -f v23.zip v23.bundle.b64
+
+      - name: Commit v23 files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Deploy Blind Date Show v23 [skip ci]"
+          git push
